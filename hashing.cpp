@@ -150,6 +150,8 @@ namespace hashing
             set<int> bucketData = buckets[dataCopy]->data;
             // Clear contents of the bucket to be split
             buckets[dataCopy]->data.clear();
+            // Increment the local depth of the split bucket
+            buckets[dataCopy]->localDepth++;
 
             // The below loop only adds the data to the two buckets
             // 1. the split bucket
@@ -160,8 +162,6 @@ namespace hashing
                 DataBucket *bucket = buckets[bucketIndex];
                 add(element);
             }
-            // Increment the local depth of the split bucket
-            buckets[dataCopy]->localDepth++;
         }
 
         /**
@@ -354,15 +354,43 @@ namespace hashing
 
 int main()
 {
+    int capacity;
+    cout << "Enter capacity of each bucket:\t";
+    cin >> capacity;
+
     hashing::ExtendibleHashMap *mp = new hashing::ExtendibleHashMap(0, 2);
-    int inp = 1;
+    int inp = 1, x;
+
     while (inp != 0)
     {
-        int x;
-        cout << "Enter element to insert\n";
-        cin >> x;
-        mp->add(x);
-        mp->print();
+        cout << "\nInput Format:\n";
+        cout << "0  : Exit the program\n";
+        cout << "1 x: Insert an element x (x is an integer)\n";
+        cout << "2 x: Remove an element x (x is an integer)\n";
+        cout << "3  : Print the hash table\n\n";
+
+        cin >> inp;
+        if (inp == 0)
+        {
+            break;
+        }
+        switch (inp)
+        {
+        case 1:
+            cin >> x;
+            mp->add(x);
+            break;
+        case 2:
+            cin >> x;
+            mp->remove(x);
+            break;
+        case 3:
+            mp->print();
+            break;
+        default:
+            cout << "Invalid Input\n";
+            break;
+        }
     }
-    // 45, 22, 12 ,, 11 , 15 ,10
+    delete mp;
 }
