@@ -158,7 +158,7 @@ namespace hashing
             {
                 int bucketIndex = _getBucketIndex(element);
                 DataBucket *bucket = buckets[bucketIndex];
-                bucket->insert(element);
+                add(element);
             }
             // Increment the local depth of the split bucket
             buckets[dataCopy]->localDepth++;
