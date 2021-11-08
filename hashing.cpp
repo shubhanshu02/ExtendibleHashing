@@ -1,6 +1,13 @@
+/***
+ * Author: Shubhanshu Saxena
+ * GitHub: shubhanshu02
+ * Roll No: 19075072
+ */
+
 #include <iostream>
 #include <vector>
 #include <set>
+#include <map>
 using namespace std;
 
 namespace hashing
@@ -184,6 +191,10 @@ namespace hashing
          */
         int getImageIndex(int splitIndex)
         {
+            if (globalDepth == 0)
+            {
+                return 0;
+            }
             int oldSize = 1 << (globalDepth - 1);
             int imageIndex = (splitIndex < oldSize)
                                  ? buckets.size() - (oldSize - splitIndex)
@@ -336,14 +347,28 @@ namespace hashing
          */
         void print()
         {
+            // To store the bucket index while showing
+            // helps to know which two bucket pointers
+            // are pointing to same bucket
+            map<DataBucket *, int> pointerId;
+
             cout << endl;
             for (int id = 0; id < buckets.size(); id++)
             {
                 cout << "Bucket " << id + 1 << " / " << buckets.size() << endl;
                 cout << "Data:\t";
-                for (int el : buckets[id]->data)
+                if (pointerId.find(buckets[id]) != pointerId.end())
                 {
-                    cout << el << " ";
+                    cout << "Pointing to Bucket #" << pointerId[buckets[id]];
+                }
+                else
+                {
+                    for (int el : buckets[id]->data)
+                    {
+                        cout << el << " ";
+                    }
+                    // Set this pointer in the map
+                    pointerId[buckets[id]] = id + 1;
                 }
                 cout << endl
                      << endl;
